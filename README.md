@@ -11,6 +11,7 @@ All steps assume ubuntu 20.04 as OS, since this is the default for ROS2-foxy.
 - install vcs-tools using `sudo apt-get install python3-vcstool`
 - make sure that you are in the root folder of this repository
 - pull the official UR3e driver repositories and its dependencies using `vcs import src < ur3e_ROS2.repos`
+- fetch all ROS dependencies using `rosdep install --from-paths src --ignore-src -r -y`
 - build the workspace using `colcon build --symlink-install` and make sure that there are no build errors
 
 

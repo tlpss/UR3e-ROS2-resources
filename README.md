@@ -59,5 +59,5 @@ This starts up nodes to teleoperate the UR3e with a game controller in realtime 
 - launch the Joy and Servo nodes using `ros2 launch teleop servo_teleop.launch.py`
 
 ### attaching collision objects to the scene
-TODO
+- to attach a groundplane to the UR3e, run `ros2 run moveit_tools add_collision_ground_plane`
 

@@ -18,6 +18,10 @@ endif()
 # find dependencies
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
+find_package(moveit_msgs REQUIRED)
+find_package(moveit_core REQUIRED)
+find_package(moveit_ros_planning REQUIRED)
+find_package(moveit_ros_planning_interface REQUIRED)
 
 add_executable(add_collision_ground_plane src/add_collision_ground_plane.cpp)
 target_include_directories(add_collision_ground_plane PUBLIC
@@ -26,6 +30,10 @@ target_include_directories(add_collision_ground_plane PUBLIC
 ament_target_dependencies(
   add_collision_ground_plane
   "rclcpp"
+  "moveit_core"
+  "moveit_ros_planning"
+  "moveit_ros_planning_interface"
+  "moveit_msgs"
 )
 
 install(TARGETS add_collision_ground_plane

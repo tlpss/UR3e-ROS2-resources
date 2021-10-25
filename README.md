@@ -15,6 +15,10 @@ All steps assume ubuntu 20.04 as OS, since this is the default for ROS2-foxy.
 - fetch all ROS dependencies using `rosdep install --from-paths src --ignore-src -r -y`
 - build the workspace using `colcon build --symlink-install` and make sure that there are no build errors
 
+If the build fails, you can try:
+- removing old versions of ROS
+- installing [ROS2_control](http://control.ros.org/getting_started.html)
+
 
 ## connect to UR3e 
 ** always make sure that you have the big red button within reach. **

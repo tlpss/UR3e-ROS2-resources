@@ -7,10 +7,11 @@ Repository containing code for controlling the UR3e @ AIRO Ghent University usin
 All steps assume ubuntu 20.04 as OS, since this is the default for ROS2-foxy.
 
 - install [ROS2 foxy](https://docs.ros.org/en/foxy/Installation/Ubuntu-Install-Debians.html)
+- install ROS2's package mananger colcon: `sudo apt install python3-colcon-common-extensions'
 - install Moveit2 for ROS2 foxy using `sudo apt install ros-foxy-moveit`
 - install vcs-tools using `sudo apt-get install python3-vcstool`
 - make sure that you are in the root folder of this repository
-- pull the official UR3e driver repositories and its dependencies using `vcs import src < ur3e_ROS2.repos`
+- pull the official UR3e driver repositories and its dependencies using `vcs import src < ur3e_ROS2_drivers.repos`
 - fetch all ROS dependencies using `rosdep install --from-paths src --ignore-src -r -y`
 - build the workspace using `colcon build --symlink-install` and make sure that there are no build errors
 

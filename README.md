@@ -7,7 +7,7 @@ Repository containing code for controlling the UR3e @ AIRO Ghent University usin
 All steps assume ubuntu 20.04 as OS, since this is the default for ROS2-foxy.
 
 - install [ROS2 foxy](https://docs.ros.org/en/foxy/Installation/Ubuntu-Install-Debians.html)
-- install ROS2's package mananger colcon: `sudo apt install python3-colcon-common-extensions'
+- install ROS2's package mananger colcon: `sudo apt install python3-colcon-common-extensions`
 - install Moveit2 for ROS2 foxy using `sudo apt install ros-foxy-moveit`
 - install vcs-tools using `sudo apt-get install python3-vcstool`
 - make sure that you are in the root folder of this repository

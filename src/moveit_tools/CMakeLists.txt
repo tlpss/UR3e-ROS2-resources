@@ -36,6 +36,10 @@ ament_target_dependencies(
   "moveit_msgs"
 )
 
+## copy  launch files 
+install(DIRECTORY launch
+  DESTINATION share/${PROJECT_NAME} )
+
 install(TARGETS add_collision_ground_plane
   DESTINATION lib/${PROJECT_NAME})
 

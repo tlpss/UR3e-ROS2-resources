@@ -13,3 +13,13 @@ repositories:
     type: git
     url: https://github.com/UniversalRobots/Universal_Robots_ROS2_Driver
     version: foxy
+
+  moveit_visual_tools:
+    type: git
+    url: https://github.com/ros-planning/moveit_visual_tools
+    version: ros2
+
+  rviz_visual_tools:
+    type: git
+    url: https://github.com/PickNikRobotics/rviz_visual_tools
+    version: ros2

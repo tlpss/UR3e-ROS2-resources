@@ -5,3 +5,5 @@ log/**
 src/Universal_Robots_Client_Library
 src/Universal_Robots_ROS2_Driver/
 src/ur_msgs/
+src/moveit_visual_tools
+src/rviz_visual_tools

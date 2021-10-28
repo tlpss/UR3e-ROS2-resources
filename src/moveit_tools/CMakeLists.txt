@@ -15,13 +15,58 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
 
+find_package(moveit_common REQUIRED)
+moveit_package()
+
 # find dependencies
+find_package(Eigen3 REQUIRED)
+find_package(Boost REQUIRED system filesystem date_time thread)
 find_package(ament_cmake REQUIRED)
-find_package(rclcpp REQUIRED)
-find_package(moveit_msgs REQUIRED)
+find_package(control_msgs REQUIRED)
 find_package(moveit_core REQUIRED)
 find_package(moveit_ros_planning REQUIRED)
 find_package(moveit_ros_planning_interface REQUIRED)
+find_package(moveit_ros_perception REQUIRED)
+find_package(moveit_servo REQUIRED)
+find_package(interactive_markers REQUIRED)
+find_package(rviz_visual_tools REQUIRED)
+find_package(moveit_visual_tools REQUIRED)
+find_package(geometric_shapes REQUIRED)
+find_package(rclcpp REQUIRED)
+find_package(rclcpp_action REQUIRED)
+find_package(pluginlib REQUIRED)
+find_package(tf2_ros REQUIRED)
+find_package(tf2_eigen REQUIRED)
+find_package(tf2_geometry_msgs REQUIRED)
+
+
+set(THIS_PACKAGE_INCLUDE_DEPENDS
+  ament_cmake
+  rclcpp
+  rclcpp_action
+  tf2_geometry_msgs
+  tf2_ros
+  moveit_core
+  rviz_visual_tools
+  moveit_visual_tools
+  moveit_ros_planning_interface
+  interactive_markers
+  tf2_geometry_msgs
+  moveit_ros_planning
+  pluginlib
+  Eigen3
+  Boost
+  control_msgs
+  moveit_servo
+)
+
+add_executable(move_group_interface_tutorial
+    src/move_group_interface_tutorial.cpp)
+target_include_directories(move_group_interface_tutorial
+    PUBLIC include)
+ament_target_dependencies(move_group_interface_tutorial
+    ${THIS_PACKAGE_INCLUDE_DEPENDS})
+
 
 add_executable(add_collision_ground_plane src/add_collision_ground_plane.cpp)
 target_include_directories(add_collision_ground_plane PUBLIC
@@ -36,11 +81,15 @@ ament_target_dependencies(
   "moveit_msgs"
 )
 
+include_directories(SYSTEM ${EIGEN3_INCLUDE_DIRS})
+
 ## copy  launch files 
 install(DIRECTORY launch
   DESTINATION share/${PROJECT_NAME} )
 
-install(TARGETS add_collision_ground_plane
+install(TARGETS 
+  add_collision_ground_plane 
+  move_group_interface_tutorial
   DESTINATION lib/${PROJECT_NAME})
 
 if(BUILD_TESTING)

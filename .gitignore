@@ -2,6 +2,7 @@ build/**
 install/**
 log/**
 **__pycache**
+.vscode/**
 src/Universal_Robots_Client_Library
 src/Universal_Robots_ROS2_Driver/
 src/ur_msgs/

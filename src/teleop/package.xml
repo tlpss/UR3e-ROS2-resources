@@ -17,6 +17,8 @@
   <depend>moveit_msgs</depend>
   <depend>geometry_msgs</depend>
 
+  <exec_depend>ros2_control</exec_depend>
+  <exec_depend>ros2_controllers</exec_depend>
 
 
   <test_depend>ament_lint_auto</test_depend>

@@ -2,18 +2,17 @@
 // https://github.com/microsoft/vscode-dev-containers/tree/v0.205.1/containers/ubuntu
 {
 	"build": {
-		"dockerfile": "../.docker/foxy/Dockerfile",
+		"dockerfile": "../.docker/foxy/dev/Dockerfile",
 		"context": "..",
 		// Update 'VARIANT' to pick an Ubuntu version: hirsute, focal, bionic
 		// Use hirsute or bionic on local arm64/Apple Silicon.
 		"args": {}
 	},
-	"workspaceFolder": "/home/colcon_ws",
 
 	// Set *default* container specific settings.json values on container create.
 	"settings": {},
 
-	
+
 
 	// Add the IDs of extensions you want installed when the container is created.
 	"extensions": [],

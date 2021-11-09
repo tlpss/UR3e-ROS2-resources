@@ -1,26 +1,26 @@
 ARG ROS_DISTRO=foxy
 FROM moveit/moveit2:${ROS_DISTRO}-release
 
-# set default shell to bash
-SHELL ["/bin/bash", "-c"] 
-
-
 # install CI for Moveit
 RUN apt-get update && apt-get install -y clang-format-10 && \ 
 apt-get install -y python3-pip && \ 
 rm -rf /var/lib/apt/lists/* && \
 pip install pre-commit
 
+# copy source files 
  WORKDIR /home/colcon_ws
 COPY src src/
 COPY ur3e_ros2_drivers.repos .
 
 # install dependencies and build all local packages
-RUN source /opt/ros/${ROS_DISTRO}/setup.bash 
-RUN vcs import src < ur3e_ros2_drivers.repos
-RUN apt-get update && \
-#apt-get install ros-foxy-graph-msgs && \ 
+# all commands for building / installing are combined in a single command
+# cf https://github.com/ros-planning/moveit2/blob/main/.docker/source/Dockerfile
+# and bc each RUN command has its own context and hence needs to resource ROS
+# apt cache is cleand to reduce image size
+RUN vcs import src < ur3e_ros2_drivers.repos && \ 
+apt-get update && \
+. /opt/ros/${ROS_DISTRO}/setup.sh && \
+# ros2 pkg list && \ # used to check if everything is sourced as expected
 rosdep install --from-paths src --ignore-src -r -y && \
-rm -rf /var/lib/apt/lists/*
-
-RUN colcon build --symlink-install
+rm -rf /var/lib/apt/lists/* && \ 
+colcon build --symlink-install

@@ -22,4 +22,4 @@ repositories:
   rviz_visual_tools:
     type: git
     url: https://github.com/PickNikRobotics/rviz_visual_tools
-    version: ros2
+    version: foxy-devel

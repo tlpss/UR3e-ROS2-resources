@@ -40,15 +40,11 @@ def load_yaml(package_name, file_path):
 def generate_launch_description():
     declared_arguments = []
     # UR specific arguments
-    declared_arguments.append(
-        DeclareLaunchArgument("ur_type", description="Type/series of used UR robot.")
-    )
+    declared_arguments.append(DeclareLaunchArgument("ur_type", description="Type/series of used UR robot."))
     # TODO(anyone): enable this when added into ROS2-foxy
     # choices=['ur3', 'ur3e', 'ur5', 'ur5e', 'ur10', 'ur10e', 'ur16e']))
     declared_arguments.append(
-        DeclareLaunchArgument(
-            "robot_ip", description="IP address by which the robot can be reached."
-        )
+        DeclareLaunchArgument("robot_ip", description="IP address by which the robot can be reached.")
     )
     declared_arguments.append(
         DeclareLaunchArgument(
@@ -126,9 +122,7 @@ def generate_launch_description():
             Used only if 'use_fake_hardware' parameter is true.",
         )
     )
-    declared_arguments.append(
-        DeclareLaunchArgument("launch_rviz", default_value="true", description="Launch RViz?")
-    )
+    declared_arguments.append(DeclareLaunchArgument("launch_rviz", default_value="true", description="Launch RViz?"))
 
     # Initialize Arguments
     ur_type = LaunchConfiguration("ur_type")
@@ -158,9 +152,7 @@ def generate_launch_description():
     visual_params = PathJoinSubstitution(
         [FindPackageShare(description_package), "config", ur_type, "visual_parameters.yaml"]
     )
-    script_filename = PathJoinSubstitution(
-        [FindPackageShare("ur_robot_driver"), "resources", "ros_control.urscript"]
-    )
+    script_filename = PathJoinSubstitution([FindPackageShare("ur_robot_driver"), "resources", "ros_control.urscript"])
     input_recipe_filename = PathJoinSubstitution(
         [FindPackageShare("ur_robot_driver"), "resources", "rtde_input_recipe.txt"]
     )
@@ -230,9 +222,7 @@ def generate_launch_description():
         [
             PathJoinSubstitution([FindExecutable(name="xacro")]),
             " ",
-            PathJoinSubstitution(
-                [FindPackageShare(moveit_config_package), "srdf", moveit_config_file]
-            ),
+            PathJoinSubstitution([FindPackageShare(moveit_config_package), "srdf", moveit_config_file]),
             " ",
             "name:=",
             # Also ur_type parameter could be used but then the planning group names in yaml
@@ -307,9 +297,7 @@ def generate_launch_description():
     )
 
     # rviz with moveit configuration
-    rviz_config_file = PathJoinSubstitution(
-        [FindPackageShare(moveit_config_package), "rviz", "view_robot.rviz"]
-    )
+    rviz_config_file = PathJoinSubstitution([FindPackageShare(moveit_config_package), "rviz", "view_robot.rviz"])
     rviz_node = Node(
         package="rviz2",
         condition=IfCondition(launch_rviz),

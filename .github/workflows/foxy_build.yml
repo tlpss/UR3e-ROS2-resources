@@ -1,9 +1,9 @@
-# build the ROS packages and their dependencies from source using gh actions caching to cache unchanged layers, 
+# build the ROS packages and their dependencies from source using gh actions caching to cache unchanged layers,
 # see https://github.com/docker/build-push-action/blob/master/docs/advanced/cache.md#local-cache
 
-# this action serves to ensure that the build succeeds. It can also serve to release a docker image to DockerHub in a later stage, which is why 
+# this action serves to ensure that the build succeeds. It can also serve to release a docker image to DockerHub in a later stage, which is why
 # the build is done using a manual docker file instead of using https://github.com/ros-tooling/action-ros-ci#Build-and-run-tests-for-your-ROS-2-package
-name: build (foxy) 
+name: build (foxy)
 
 on: [push, pull_request]
 

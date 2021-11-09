@@ -1,17 +1,11 @@
 import os
-import yaml
-from launch import LaunchDescription
-from launch_ros.actions import Node
-from launch.actions import ExecuteProcess, DeclareLaunchArgument
-from ament_index_python.packages import get_package_share_directory
-import xacro
 
-from launch.substitutions import (
-    Command,
-    FindExecutable,
-    LaunchConfiguration,
-    PathJoinSubstitution,
-)
+import yaml
+from ament_index_python.packages import get_package_share_directory
+from launch import LaunchDescription
+from launch.actions import DeclareLaunchArgument
+from launch.substitutions import Command, FindExecutable, LaunchConfiguration, PathJoinSubstitution
+from launch_ros.actions import Node
 from launch_ros.substitutions import FindPackageShare
 
 
@@ -42,9 +36,7 @@ def get_declared_arguments():
     # UR3e specific arguments
     # copied from ur control launch file because the URDF files are very templated and we need the description for the servo node
     declared_arguments.append(
-        DeclareLaunchArgument(
-            "ur_type", default_value="ur3e", description="Type/series of used UR robot."
-        )
+        DeclareLaunchArgument("ur_type", default_value="ur3e", description="Type/series of used UR robot.")
     )
 
     declared_arguments.append(
@@ -173,9 +165,7 @@ def get_robot_descriptions():
             "visual_parameters.yaml",
         ]
     )
-    script_filename = PathJoinSubstitution(
-        [FindPackageShare("ur_robot_driver"), "resources", "ros_control.urscript"]
-    )
+    script_filename = PathJoinSubstitution([FindPackageShare("ur_robot_driver"), "resources", "ros_control.urscript"])
     input_recipe_filename = PathJoinSubstitution(
         [FindPackageShare("ur_robot_driver"), "resources", "rtde_input_recipe.txt"]
     )
@@ -188,9 +178,7 @@ def get_robot_descriptions():
         [
             PathJoinSubstitution([FindExecutable(name="xacro")]),
             " ",
-            PathJoinSubstitution(
-                [FindPackageShare("ur_description"), "urdf", "ur.urdf.xacro"]
-            ),
+            PathJoinSubstitution([FindPackageShare("ur_description"), "urdf", "ur.urdf.xacro"]),
             " ",
             "robot_ip:=",
             robot_ip,
@@ -246,9 +234,7 @@ def get_robot_descriptions():
         [
             PathJoinSubstitution([FindExecutable(name="xacro")]),
             " ",
-            PathJoinSubstitution(
-                [FindPackageShare("ur_moveit_config"), "srdf", "ur.srdf.xacro"]
-            ),
+            PathJoinSubstitution([FindPackageShare("ur_moveit_config"), "srdf", "ur.srdf.xacro"]),
             " ",
             "name:=",
             "ur",  # name should be ur!
@@ -258,9 +244,7 @@ def get_robot_descriptions():
             " ",
         ]
     )
-    robot_description_semantic = {
-        "robot_description_semantic": robot_description_semantic_content
-    }
+    robot_description_semantic = {"robot_description_semantic": robot_description_semantic_content}
     return robot_description, robot_description_semantic
 
 
@@ -284,9 +268,7 @@ def generate_launch_description():
     ompl_planning_pipeline_config["move_group"].update(ompl_planning_yaml)
 
     # Trajectory Execution Functionality
-    moveit_simple_controllers_yaml = load_yaml(
-        "ur_moveit_config", "config/controllers.yaml"
-    )
+    moveit_simple_controllers_yaml = load_yaml("ur_moveit_config", "config/controllers.yaml")
     moveit_controllers = {
         "moveit_simple_controller_manager": moveit_simple_controllers_yaml,
         "moveit_controller_manager": "moveit_simple_controller_manager/MoveItSimpleControllerManager",
@@ -323,9 +305,7 @@ def generate_launch_description():
     )
 
     # RViz
-    rviz_config_file = (
-        get_package_share_directory("moveit_tools") + "/launch/move_group.rviz"
-    )
+    rviz_config_file = get_package_share_directory("moveit_tools") + "/launch/move_group.rviz"
     rviz_node = Node(
         package="rviz2",
         executable="rviz2",
@@ -353,7 +333,8 @@ def generate_launch_description():
     )
 
     return LaunchDescription(
-        declared_arguments + [
+        declared_arguments
+        + [
             rviz_node,
             run_move_group_node,
             mongodb_server_node,

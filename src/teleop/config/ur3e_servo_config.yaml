@@ -55,7 +55,7 @@ cartesian_command_in_topic: ~/delta_twist_cmds  # Topic for incoming Cartesian t
 joint_command_in_topic: ~/delta_joint_cmds # Topic for incoming joint angle commands
 joint_topic: /joint_states
 status_topic: ~/status # Publish status to this topic
-command_out_topic: /joint_trajectory_controller/joint_trajectory # Publish outgoing commands here 
+command_out_topic: /joint_trajectory_controller/joint_trajectory # Publish outgoing commands here
 
 ## Collision checking for the entire robot body
 check_collisions: true # Check collisions?
@@ -66,4 +66,4 @@ scene_collision_proximity_threshold: 0.01 # Start decelerating when a scene coll
 
 collision_check_type: threshold_distance ## FOXY REMNIC.. todo: check impact & check if we want to keep foxy?
 collision_distance_safety_factor: 1.0 ## idem
-min_allowable_collision_distance: 0.01 ## idem 
+min_allowable_collision_distance: 0.01 ## idem

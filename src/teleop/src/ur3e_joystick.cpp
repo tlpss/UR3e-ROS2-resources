@@ -36,7 +36,7 @@
  *      Project   : UR3e-resources
  *      Created   : 6/10/2021
  *      Author    : Thomas Lips
- * 
+ *
  * based on the work of Adam Pettinger on Moveit2-Servo
  */
 
@@ -54,8 +54,8 @@ const std::string JOY_TOPIC = "/joy";
 const std::string TWIST_TOPIC = "/servo_server/delta_twist_cmds";
 const std::string JOINT_TOPIC = "/servo_server/delta_joint_cmds";
 const size_t ROS_QUEUE_SIZE = 10;
-const std::string EEF_FRAME_ID = "tool0"; // UR3e EE, cf URDF
-const std::string BASE_FRAME_ID = "base_link"; // UR3e base, cf URDF
+const std::string EEF_FRAME_ID = "tool0";       // UR3e EE, cf URDF
+const std::string BASE_FRAME_ID = "base_link";  // UR3e base, cf URDF
 
 // Enums for button names -> axis/button array index
 // For XBOX 1 controller
@@ -170,9 +170,7 @@ public:
     servo_start_client_ = this->create_client<std_srvs::srv::Trigger>("/servo_server/start_servo");
     servo_start_client_->wait_for_service(std::chrono::seconds(1));
     servo_start_client_->async_send_request(std::make_shared<std_srvs::srv::Trigger::Request>());
-
   }
-
 
   void joyCB(const sensor_msgs::msg::Joy::SharedPtr msg)
   {

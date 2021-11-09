@@ -1,6 +1,6 @@
-build/**
-install/**
-log/**
+**/build/**
+**/install/**
+**/log/**
 **__pycache**
 .vscode/**
 src/Universal_Robots_Client_Library

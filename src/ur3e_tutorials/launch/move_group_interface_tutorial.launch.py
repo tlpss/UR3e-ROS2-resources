@@ -1,12 +1,11 @@
 import os
-
 import yaml
-from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument
-from launch.substitutions import Command, FindExecutable, LaunchConfiguration, PathJoinSubstitution
 from launch_ros.actions import Node
+from ament_index_python.packages import get_package_share_directory
+from launch.substitutions import Command, FindExecutable, LaunchConfiguration, PathJoinSubstitution
 from launch_ros.substitutions import FindPackageShare
+from launch.actions import DeclareLaunchArgument
 
 
 def load_file(package_name, file_path):
@@ -30,13 +29,14 @@ def load_yaml(package_name, file_path):
     except EnvironmentError:  # parent of IOError, OSError *and* WindowsError where available
         return None
 
-
 def get_declared_arguments():
     declared_arguments = []
     # UR3e specific arguments
     # copied from ur control launch file because the URDF files are very templated and we need the description for the servo node
     declared_arguments.append(
-        DeclareLaunchArgument("ur_type", default_value="ur3e", description="Type/series of used UR robot.")
+        DeclareLaunchArgument(
+            "ur_type", default_value="ur3e", description="Type/series of used UR robot."
+        )
     )
 
     declared_arguments.append(
@@ -124,7 +124,6 @@ def get_declared_arguments():
     )
     return declared_arguments
 
-
 def get_robot_descriptions():
     # Initialize Arguments
     ur_type = LaunchConfiguration("ur_type")
@@ -165,7 +164,9 @@ def get_robot_descriptions():
             "visual_parameters.yaml",
         ]
     )
-    script_filename = PathJoinSubstitution([FindPackageShare("ur_robot_driver"), "resources", "ros_control.urscript"])
+    script_filename = PathJoinSubstitution(
+        [FindPackageShare("ur_robot_driver"), "resources", "ros_control.urscript"]
+    )
     input_recipe_filename = PathJoinSubstitution(
         [FindPackageShare("ur_robot_driver"), "resources", "rtde_input_recipe.txt"]
     )
@@ -178,7 +179,9 @@ def get_robot_descriptions():
         [
             PathJoinSubstitution([FindExecutable(name="xacro")]),
             " ",
-            PathJoinSubstitution([FindPackageShare("ur_description"), "urdf", "ur.urdf.xacro"]),
+            PathJoinSubstitution(
+                [FindPackageShare("ur_description"), "urdf", "ur.urdf.xacro"]
+            ),
             " ",
             "robot_ip:=",
             robot_ip,
@@ -234,7 +237,9 @@ def get_robot_descriptions():
         [
             PathJoinSubstitution([FindExecutable(name="xacro")]),
             " ",
-            PathJoinSubstitution([FindPackageShare("ur_moveit_config"), "srdf", "ur.srdf.xacro"]),
+            PathJoinSubstitution(
+                [FindPackageShare("ur_moveit_config"), "srdf", "ur.srdf.xacro"]
+            ),
             " ",
             "name:=",
             "ur",  # name should be ur!
@@ -244,7 +249,9 @@ def get_robot_descriptions():
             " ",
         ]
     )
-    robot_description_semantic = {"robot_description_semantic": robot_description_semantic_content}
+    robot_description_semantic = {
+        "robot_description_semantic": robot_description_semantic_content
+    }
     return robot_description, robot_description_semantic
 
 
@@ -255,15 +262,18 @@ def generate_launch_description():
     # planning_context
     robot_description, robot_description_semantic = get_robot_descriptions()
 
-    kinematics_yaml = load_yaml("ur_moveit_config", "config/kinematics.yaml")
+
+    kinematics_yaml = load_yaml(
+        "ur_moveit_config", "config/kinematics.yaml"
+    )
 
     # MoveGroupInterface demo executable
-    waypoint = Node(
-        name="waypoint",
+    move_group_demo = Node(
+        name="move_group_interface_tutorial",
         package="moveit_tools",
-        executable="waypoint",
+        executable="move_group_interface_tutorial",
         output="screen",
         parameters=[robot_description, robot_description_semantic, kinematics_yaml],
     )
 
-    return LaunchDescription(declared_arguments + [waypoint])
+    return LaunchDescription(declared_arguments + [move_group_demo])

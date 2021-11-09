@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
-project(moveit_tools)
+project(cartesian_waypoint_execution)
 
 # Default to C99
 if(NOT CMAKE_C_STANDARD)
@@ -14,6 +14,8 @@ endif()
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
+
+include_directories(include)
 
 find_package(moveit_common REQUIRED)
 moveit_package()
@@ -60,27 +62,31 @@ set(THIS_PACKAGE_INCLUDE_DEPENDS
   moveit_servo
 )
 
-add_executable(add_collision_ground_plane src/add_collision_ground_plane.cpp)
-target_include_directories(add_collision_ground_plane PUBLIC
-  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-  $<INSTALL_INTERFACE:include>)
-ament_target_dependencies(
-  add_collision_ground_plane
-  "rclcpp"
-  "moveit_core"
-  "moveit_ros_planning"
-  "moveit_ros_planning_interface"
-  "moveit_msgs"
-)
+add_library(trajectory_processing src/trajectory_processing.cpp)
+target_include_directories(trajectory_processing
+    PUBLIC include)
+ament_target_dependencies(trajectory_processing
+    ${THIS_PACKAGE_INCLUDE_DEPENDS})
+
+add_executable(waypoints
+    src/waypoints.cpp)
+target_include_directories(waypoints
+    PUBLIC include)
+ament_target_dependencies(waypoints
+    ${THIS_PACKAGE_INCLUDE_DEPENDS})
 
 include_directories(SYSTEM ${EIGEN3_INCLUDE_DIRS})
 
-## copy  launch files
+target_link_libraries(waypoints trajectory_processing)
+
+
+## copy  launch files 
 install(DIRECTORY launch
   DESTINATION share/${PROJECT_NAME} )
 
 install(TARGETS
-  add_collision_ground_plane
+  trajectory_processing 
+  waypoints
   DESTINATION lib/${PROJECT_NAME})
 
 if(BUILD_TESTING)

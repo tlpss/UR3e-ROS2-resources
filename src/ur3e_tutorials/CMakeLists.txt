@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
-project(moveit_tools)
+project(ur3e_tutorials)
 
 # Default to C99
 if(NOT CMAKE_C_STANDARD)
@@ -60,27 +60,21 @@ set(THIS_PACKAGE_INCLUDE_DEPENDS
   moveit_servo
 )
 
-add_executable(add_collision_ground_plane src/add_collision_ground_plane.cpp)
-target_include_directories(add_collision_ground_plane PUBLIC
-  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-  $<INSTALL_INTERFACE:include>)
-ament_target_dependencies(
-  add_collision_ground_plane
-  "rclcpp"
-  "moveit_core"
-  "moveit_ros_planning"
-  "moveit_ros_planning_interface"
-  "moveit_msgs"
-)
+add_executable(move_group_interface_tutorial
+    src/move_group_interface_tutorial.cpp)
+target_include_directories(move_group_interface_tutorial
+    PUBLIC include)
+ament_target_dependencies(move_group_interface_tutorial
+    ${THIS_PACKAGE_INCLUDE_DEPENDS})
 
 include_directories(SYSTEM ${EIGEN3_INCLUDE_DIRS})
 
-## copy  launch files
+## copy  launch files 
 install(DIRECTORY launch
   DESTINATION share/${PROJECT_NAME} )
 
-install(TARGETS
-  add_collision_ground_plane
+install(TARGETS 
+  move_group_interface_tutorial
   DESTINATION lib/${PROJECT_NAME})
 
 if(BUILD_TESTING)

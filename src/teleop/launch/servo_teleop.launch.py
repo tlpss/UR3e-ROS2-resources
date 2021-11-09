@@ -1,14 +1,12 @@
 import os
+
 import yaml
-from launch import LaunchDescription
-from launch_ros.actions import Node
 from ament_index_python.packages import get_package_share_directory
-from launch_ros.actions import ComposableNodeContainer
-from launch_ros.descriptions import ComposableNode
-from launch.actions import ExecuteProcess, DeclareLaunchArgument
-import xacro
-from launch.conditions import IfCondition
+from launch import LaunchDescription
+from launch.actions import DeclareLaunchArgument
 from launch.substitutions import Command, FindExecutable, LaunchConfiguration, PathJoinSubstitution
+from launch_ros.actions import ComposableNodeContainer, Node
+from launch_ros.descriptions import ComposableNode
 from launch_ros.substitutions import FindPackageShare
 
 
@@ -37,7 +35,7 @@ def load_yaml(package_name, file_path):
 
 def generate_launch_description():
     # Get parameters for the Servo node
-    servo_yaml = load_yaml("teleop","config/ur3e_servo_config.yaml")
+    servo_yaml = load_yaml("teleop", "config/ur3e_servo_config.yaml")
     servo_params = {"moveit_servo": servo_yaml}
 
     declared_arguments = []
@@ -49,7 +47,7 @@ def generate_launch_description():
 
     declared_arguments.append(
         DeclareLaunchArgument(
-            "robot_ip", default_value= "xxx.xxx", description="IP address by which the robot can be reached."
+            "robot_ip", default_value="xxx.xxx", description="IP address by which the robot can be reached."
         )
     )
     declared_arguments.append(
@@ -152,9 +150,7 @@ def generate_launch_description():
     visual_params = PathJoinSubstitution(
         [FindPackageShare(description_package), "config", ur_type, "visual_parameters.yaml"]
     )
-    script_filename = PathJoinSubstitution(
-        [FindPackageShare("ur_robot_driver"), "resources", "ros_control.urscript"]
-    )
+    script_filename = PathJoinSubstitution([FindPackageShare("ur_robot_driver"), "resources", "ros_control.urscript"])
     input_recipe_filename = PathJoinSubstitution(
         [FindPackageShare("ur_robot_driver"), "resources", "rtde_input_recipe.txt"]
     )
@@ -162,12 +158,12 @@ def generate_launch_description():
         [FindPackageShare("ur_robot_driver"), "resources", "rtde_output_recipe.txt"]
     )
 
-    ## get URDF by processing xacro template from UR_description package 
+    ## get URDF by processing xacro template from UR_description package
     robot_description_content = Command(
         [
             PathJoinSubstitution([FindExecutable(name="xacro")]),
             " ",
-            PathJoinSubstitution([FindPackageShare("ur_description"), "urdf", 'ur.urdf.xacro']),
+            PathJoinSubstitution([FindPackageShare("ur_description"), "urdf", "ur.urdf.xacro"]),
             " ",
             "robot_ip:=",
             robot_ip,
@@ -223,12 +219,10 @@ def generate_launch_description():
         [
             PathJoinSubstitution([FindExecutable(name="xacro")]),
             " ",
-            PathJoinSubstitution(
-                [FindPackageShare("ur_moveit_config"), "srdf", "ur.srdf.xacro"]
-            ),
+            PathJoinSubstitution([FindPackageShare("ur_moveit_config"), "srdf", "ur.srdf.xacro"]),
             " ",
             "name:=",
-            "ur", # name should be ur!
+            "ur",  # name should be ur!
             " ",
             "prefix:=",
             prefix,
@@ -244,7 +238,6 @@ def generate_launch_description():
         package="rclcpp_components",
         executable="component_container",
         composable_node_descriptions=[
-
             ComposableNode(
                 package="moveit_servo",
                 plugin="moveit_servo::ServoServer",
@@ -253,7 +246,6 @@ def generate_launch_description():
                     servo_params,
                     robot_description,
                     robot_description_semantic,
-                    
                 ],
                 extra_arguments=[{"use_intra_process_comms": True}],
             ),
@@ -272,11 +264,8 @@ def generate_launch_description():
         ],
         output="screen",
     )
-        # RViz
-    rviz_config_file = (
-        get_package_share_directory("teleop")
-        + "/config/ur3e_teleop.rviz"
-    )
+    # RViz
+    rviz_config_file = get_package_share_directory("teleop") + "/config/ur3e_teleop.rviz"
     rviz_node = Node(
         package="rviz2",
         executable="rviz2",
@@ -286,7 +275,4 @@ def generate_launch_description():
         parameters=[robot_description, robot_description_semantic],
     )
 
-    return LaunchDescription(
-        declared_arguments + 
-        [container, rviz_node] 
-    )
+    return LaunchDescription(declared_arguments + [container, rviz_node])

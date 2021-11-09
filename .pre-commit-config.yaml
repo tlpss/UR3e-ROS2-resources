@@ -1,0 +1,59 @@
+# To use:
+#
+#     pre-commit run -a
+#
+# Or:
+#
+#     pre-commit install  # (runs every time you commit in git)
+#
+# To update this file:
+#
+#     pre-commit autoupdate
+#
+# See https://github.com/pre-commit/pre-commit
+
+repos:
+  # Standard hooks
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v3.4.0
+    hooks:
+      - id: check-added-large-files
+      - id: check-case-conflict
+      - id: debug-statements
+      - id: destroyed-symlinks
+      - id: detect-private-key
+      - id: end-of-file-fixer
+      - id: mixed-line-ending
+      - id: trailing-whitespace
+
+  -   repo: https://github.com/myint/autoflake
+      rev: v1.4
+      hooks:
+      -   id: autoflake
+          name: autoflake - remove unused imports and variables
+          entry: autoflake --remove-all-unused-imports --recursive --remove-unused-variables --in-place --ignore-init-module-imports
+          files: \.py$
+  -   repo: https://github.com/PyCQA/isort
+      rev: 5.10.0
+      hooks:
+      -   id: isort
+          name: isort - sort imports
+          entry: isort --profile black --line-length 119
+          files: \.py$
+  -   repo: https://github.com/psf/black
+      rev: 21.10b0
+      hooks:
+      -   id: black
+          name: black - python code formatter
+          entry: black --line-length 119
+          files: \.py$
+
+  - repo: local
+    hooks:
+      - id: clang-format
+        name: clang-format
+        description: Format files with ClangFormat.
+        entry: clang-format-10
+        language: system
+        files: \.(c|cc|cxx|cpp|frag|glsl|h|hpp|hxx|ih|ispc|ipp|java|js|m|proto|vert)$
+        args: ['-fallback-style=none', '-i']

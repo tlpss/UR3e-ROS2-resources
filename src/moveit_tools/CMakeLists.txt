@@ -90,12 +90,12 @@ ament_target_dependencies(
 
 include_directories(SYSTEM ${EIGEN3_INCLUDE_DIRS})
 
-## copy  launch files 
+## copy  launch files
 install(DIRECTORY launch
   DESTINATION share/${PROJECT_NAME} )
 
-install(TARGETS 
-  add_collision_ground_plane 
+install(TARGETS
+  add_collision_ground_plane
   move_group_interface_tutorial
   waypoints
   DESTINATION lib/${PROJECT_NAME})

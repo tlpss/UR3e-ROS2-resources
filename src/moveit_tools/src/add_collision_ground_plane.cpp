@@ -32,7 +32,7 @@
  *  POSSIBILITY OF SUCH DAMAGE.
  *********************************************************************/
 
- /*     Created   : 06/10/2021
+/*     Created   : 06/10/2021
  *      Author    : Thomas Lips
  * Executable to add ground plane collision object to Moveit Planning Scene
  */
@@ -43,10 +43,9 @@
 
 rclcpp::Node::SharedPtr node_;
 
-/* CONFIGURATION */ 
-std::string BASE_LINK = "base_link"; // UR3e base link
-std::string PLANNING_SCENE_TOPIC = "/planning_scene"; // MOVEIT SERVO configuration
-
+/* CONFIGURATION */
+std::string BASE_LINK = "base_link";                   // UR3e base link
+std::string PLANNING_SCENE_TOPIC = "/planning_scene";  // MOVEIT SERVO configuration
 
 // set up the node, planning_scene_monitor, and collision object
 int main(int argc, char** argv)
@@ -67,15 +66,14 @@ int main(int argc, char** argv)
   ground_plane.type = ground_plane.CYLINDER;
   // set dimensions (height, radius) of the cylinder
   // 0.6 is approx workspace size of UR3e
-  ground_plane.dimensions = { 0.02, 0.6 }; 
+  ground_plane.dimensions = { 0.02, 0.6 };
 
-  //attach to robot base
+  // attach to robot base
   geometry_msgs::msg::Pose ground_plane_pose;
   ground_plane_pose.position.x = 0.0;
   ground_plane_pose.position.y = 0.0;
   ground_plane_pose.position.z = 0.0;
 
-  
   collision_object.primitives.push_back(ground_plane);
   collision_object.primitive_poses.push_back(ground_plane_pose);
 
@@ -88,7 +86,6 @@ int main(int argc, char** argv)
   ps->world = psw;
   ps->is_diff = true;
   collision_pub_->publish(std::move(ps));
-
 
   rclcpp::shutdown();
   return 0;

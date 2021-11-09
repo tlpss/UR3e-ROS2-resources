@@ -20,7 +20,8 @@ using namespace geometry_msgs::msg;
 using Eigen::Isometry3d;
 using Eigen::Vector3d;
 
-static Point vec_to_point(Vector3d v) {
+static Point vec_to_point(Vector3d v)
+{
   // Converts an Eigen::Vector3d to a geometry_msgs::msg::Point
   Point point;
   point.x = v.x();
@@ -29,7 +30,8 @@ static Point vec_to_point(Vector3d v) {
   return point;
 }
 
-int main(int argc, char **argv) {
+int main(int argc, char** argv)
+{
   rclcpp::init(argc, argv);
   rclcpp::NodeOptions node_options;
   node_options.automatically_declare_parameters_from_overrides(true);
@@ -45,26 +47,23 @@ int main(int argc, char **argv) {
 
   RobotStatePtr current_state = move_group.getCurrentState(10);
 
-  const JointModelGroup *joint_model_group =
-      current_state->getJointModelGroup(PLANNING_GROUP);
+  const JointModelGroup* joint_model_group = current_state->getJointModelGroup(PLANNING_GROUP);
 
   MoveGroupInterface::Plan plan;
 
   std::vector<double> joint_group_positions;
-  current_state->copyJointGroupPositions(joint_model_group,
-                                         joint_group_positions);
+  current_state->copyJointGroupPositions(joint_model_group, joint_group_positions);
 
   // Now, let's modify one of the joints, plan to the new joint space goal and
   // visualize the plan.
-  joint_group_positions[0] = -1.0; // radians
-  joint_group_positions[2] = 1.0;  // radians
+  joint_group_positions[0] = -1.0;  // radians
+  joint_group_positions[2] = 1.0;   // radians
 
   move_group.setJointValueTarget(joint_group_positions);
 
   namespace rvt = rviz_visual_tools;
-  moveit_visual_tools::MoveItVisualTools visual_tools(
-      move_group_node, "base_link", "move_group_tutorial",
-      move_group.getRobotModel());
+  moveit_visual_tools::MoveItVisualTools visual_tools(move_group_node, "base_link", "move_group_tutorial",
+                                                      move_group.getRobotModel());
 
   visual_tools.deleteAllMarkers();
   visual_tools.loadRemoteControl();
@@ -83,7 +82,8 @@ int main(int argc, char **argv) {
   double radius = 0.3;
   double pi = 3.14159265358979323846;
   int n_steps = 100;
-  for (double theta = 0.0; theta <= pi; theta += pi / n_steps) {
+  for (double theta = 0.0; theta <= pi; theta += pi / n_steps)
+  {
     double x = std::cos(theta) * radius;
     double y = 0.3;
     double z = std::sin(theta) * radius;
@@ -94,7 +94,8 @@ int main(int argc, char **argv) {
 
   Pose current_pose = move_group.getCurrentPose().pose;
 
-  for (Vector3d target_position : target_positions) {
+  for (Vector3d target_position : target_positions)
+  {
     visual_tools.publishSphere(target_position, rvt::GREEN, rvt::MEDIUM);
     Pose target_pose = current_pose;
     target_pose.position = vec_to_point(target_position);
@@ -104,8 +105,7 @@ int main(int argc, char **argv) {
   RobotTrajectory trajectory;
   const double jump_threshold = 0.0;
   const double eef_step = 0.01;
-  double fraction = move_group.computeCartesianPath(target_poses, eef_step,
-                                                    jump_threshold, trajectory);
+  double fraction = move_group.computeCartesianPath(target_poses, eef_step, jump_threshold, trajectory);
 
   visual_tools.publishTrajectoryLine(trajectory, joint_model_group);
   visual_tools.publishPath(target_poses, rvt::LIME_GREEN, rvt::SMALL);
@@ -115,8 +115,7 @@ int main(int argc, char **argv) {
   //   bool success = (move_group.plan(plan) == MoveItErrorCode::SUCCESS);
   //   visual_tools.publishTrajectoryLine(plan.trajectory_, joint_model_group);
   visual_tools.trigger();
-  visual_tools.prompt(
-      "Press 'next' in the RvizVisualToolsGui window to continue the demo");
+  visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to continue the demo");
 
   visual_tools.deleteAllMarkers();
   visual_tools.trigger();

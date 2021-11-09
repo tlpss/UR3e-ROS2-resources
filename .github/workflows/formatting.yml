@@ -1,7 +1,8 @@
 # This is a format job. Pre-commit has a first-party GitHub action, so we use
 # that: https://github.com/pre-commit/action
 
-
+## note that using pre-commit CI would be faster but there is no hook for clang-format-10 and this specific version is used by Moveit,
+# newer onese are not backwards compatible
 name: Formatting (pre-commit)
 
 on:

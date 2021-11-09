@@ -69,11 +69,11 @@ ament_target_dependencies(move_group_interface_tutorial
 
 include_directories(SYSTEM ${EIGEN3_INCLUDE_DIRS})
 
-## copy  launch files 
+## copy  launch files
 install(DIRECTORY launch
   DESTINATION share/${PROJECT_NAME} )
 
-install(TARGETS 
+install(TARGETS
   move_group_interface_tutorial
   DESTINATION lib/${PROJECT_NAME})
 

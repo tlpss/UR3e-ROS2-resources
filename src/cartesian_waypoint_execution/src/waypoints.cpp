@@ -24,7 +24,8 @@ using Eigen::Vector3d;
 
 using nlohmann::json;
 
-static Point vec_to_point(Vector3d v) {
+static Point vec_to_point(Vector3d v)
+{
   // Converts an Eigen::Vector3d to a geometry_msgs::msg::Point
   Point point;
   point.x = v.x();
@@ -33,7 +34,8 @@ static Point vec_to_point(Vector3d v) {
   return point;
 }
 
-int main(int argc, char **argv) {
+int main(int argc, char** argv)
+{
   rclcpp::init(argc, argv);
   rclcpp::NodeOptions node_options;
   node_options.automatically_declare_parameters_from_overrides(true);
@@ -48,7 +50,8 @@ int main(int argc, char **argv) {
   std::vector<Vector3d> target_positions;
   std::vector<double> times;
 
-  for (auto &l : locations) {
+  for (auto& l : locations)
+  {
     double x = l["x"];
     double y = l["y"];
     double z = l["z"];
@@ -71,14 +74,12 @@ int main(int argc, char **argv) {
 
   RobotStatePtr current_state = move_group.getCurrentState(10);
 
-  const JointModelGroup *joint_model_group =
-      current_state->getJointModelGroup(PLANNING_GROUP);
+  const JointModelGroup* joint_model_group = current_state->getJointModelGroup(PLANNING_GROUP);
 
   MoveGroupInterface::Plan plan;
 
   std::vector<double> joint_group_positions;
-  current_state->copyJointGroupPositions(joint_model_group,
-                                         joint_group_positions);
+  current_state->copyJointGroupPositions(joint_model_group, joint_group_positions);
 
   // joint_group_positions[0] = -1.0; // radians
   // joint_group_positions[2] = 1.0;  // radians
@@ -86,9 +87,8 @@ int main(int argc, char **argv) {
   move_group.setJointValueTarget(joint_group_positions);
 
   namespace rvt = rviz_visual_tools;
-  moveit_visual_tools::MoveItVisualTools visual_tools(
-      move_group_node, "base_link", "move_group_tutorial",
-      move_group.getRobotModel());
+  moveit_visual_tools::MoveItVisualTools visual_tools(move_group_node, "base_link", "move_group_tutorial",
+                                                      move_group.getRobotModel());
 
   visual_tools.deleteAllMarkers();
   visual_tools.loadRemoteControl();
@@ -143,7 +143,8 @@ int main(int argc, char **argv) {
   tf2::Quaternion q;
   q.setRPY(-pi, 0.0, 0.0);
 
-  for (Vector3d target_position : target_positions) {
+  for (Vector3d target_position : target_positions)
+  {
     visual_tools.publishSphere(target_position, rvt::GREEN, rvt::MEDIUM);
 
     Pose target_pose;
@@ -160,8 +161,7 @@ int main(int argc, char **argv) {
   moveit_msgs::msg::RobotTrajectory trajectory;
   const double jump_threshold = 0.0;
   const double eef_step = 0.01;
-  move_group.computeCartesianPath({target_poses[0]}, eef_step, jump_threshold,
-                                  trajectory);
+  move_group.computeCartesianPath({ target_poses[0] }, eef_step, jump_threshold, trajectory);
 
   visual_tools.publishTrajectoryLine(trajectory, joint_model_group);
   visual_tools.prompt("NEXT");
@@ -169,8 +169,7 @@ int main(int argc, char **argv) {
   move_group.execute(trajectory);
   visual_tools.prompt("NEXT2");
 
-  double fraction = move_group.computeCartesianPath(target_poses, eef_step,
-                                                    jump_threshold, trajectory);
+  double fraction = move_group.computeCartesianPath(target_poses, eef_step, jump_threshold, trajectory);
 
   // move_group.
   RCLCPP_INFO(LOGGER, "FRACTION");
@@ -181,8 +180,7 @@ int main(int argc, char **argv) {
   visual_tools.trigger();
   visual_tools.prompt("Press 'next' to visualize the retimed trjaectory.");
 
-  robot_trajectory::RobotTrajectory rt(move_group.getRobotModel(),
-                                       joint_model_group);
+  robot_trajectory::RobotTrajectory rt(move_group.getRobotModel(), joint_model_group);
 
   rt.setRobotTrajectoryMsg(*current_state, trajectory);
   trajectory_processing::updateTrajectory(rt, times);
@@ -195,8 +193,7 @@ int main(int argc, char **argv) {
   RCLCPP_INFO(LOGGER, std::to_string(rt.getWayPointCount()));
 
   visual_tools.trigger();
-  visual_tools.prompt(
-      "Press 'next' in the RvizVisualToolsGui window to continue the demo");
+  visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to continue the demo");
 
   visual_tools.deleteAllMarkers();
   visual_tools.trigger();

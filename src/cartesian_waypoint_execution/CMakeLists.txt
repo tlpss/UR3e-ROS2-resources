@@ -80,12 +80,12 @@ include_directories(SYSTEM ${EIGEN3_INCLUDE_DIRS})
 target_link_libraries(waypoints trajectory_processing)
 
 
-## copy  launch files 
+## copy  launch files
 install(DIRECTORY launch
   DESTINATION share/${PROJECT_NAME} )
 
 install(TARGETS
-  trajectory_processing 
+  trajectory_processing
   waypoints
   DESTINATION lib/${PROJECT_NAME})
 

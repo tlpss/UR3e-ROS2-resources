@@ -56,4 +56,5 @@ repos:
         entry: clang-format-10
         language: system
         files: \.(c|cc|cxx|cpp|frag|glsl|h|hpp|hxx|ih|ispc|ipp|java|js|m|proto|vert)$
+        #exclude: src/cartesian_waypoint_execution/include/cartesian_waypoint_execution/json.hpp
         args: ['-fallback-style=none', '-i']

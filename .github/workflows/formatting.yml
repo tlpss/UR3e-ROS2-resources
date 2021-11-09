@@ -1,0 +1,26 @@
+# This is a format job. Pre-commit has a first-party GitHub action, so we use
+# that: https://github.com/pre-commit/action
+
+## note that using pre-commit CI would be faster but there is no hook for clang-format-10 and this specific version is used by Moveit,
+# newer onese are not backwards compatible
+name: Formatting (pre-commit)
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  pre-commit:
+    name: Format
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-python@v2
+    - name: Install clang-format-10
+      run: sudo apt-get install clang-format-10
+    - uses: pre-commit/action@v2.0.3
+      id: precommit

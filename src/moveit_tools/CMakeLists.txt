@@ -60,6 +60,21 @@ set(THIS_PACKAGE_INCLUDE_DEPENDS
   moveit_servo
 )
 
+add_executable(move_group_interface_tutorial
+    src/move_group_interface_tutorial.cpp)
+target_include_directories(move_group_interface_tutorial
+    PUBLIC include)
+ament_target_dependencies(move_group_interface_tutorial
+    ${THIS_PACKAGE_INCLUDE_DEPENDS})
+
+    add_executable(waypoints
+    src/waypoints.cpp)
+target_include_directories(waypoints
+    PUBLIC include)
+ament_target_dependencies(waypoints
+    ${THIS_PACKAGE_INCLUDE_DEPENDS})
+
+
 add_executable(add_collision_ground_plane src/add_collision_ground_plane.cpp)
 target_include_directories(add_collision_ground_plane PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
@@ -81,6 +96,8 @@ install(DIRECTORY launch
 
 install(TARGETS 
   add_collision_ground_plane 
+  move_group_interface_tutorial
+  waypoints
   DESTINATION lib/${PROJECT_NAME})
 
 if(BUILD_TESTING)

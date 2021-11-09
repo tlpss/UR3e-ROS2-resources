@@ -268,12 +268,12 @@ def generate_launch_description():
     )
 
     # MoveGroupInterface demo executable
-    waypoints = Node(
-        name="waypoints",
+    waypoint = Node(
+        name="waypoint",
         package="moveit_tools",
-        executable="waypoints",
+        executable="waypoint",
         output="screen",
         parameters=[robot_description, robot_description_semantic, kinematics_yaml],
     )
 
-    return LaunchDescription(declared_arguments + [waypoints])
+    return LaunchDescription(declared_arguments + [waypoint])

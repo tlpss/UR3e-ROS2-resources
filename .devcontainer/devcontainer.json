@@ -15,7 +15,17 @@
 
 
 	// Add the IDs of extensions you want installed when the container is created.
-	"extensions": [],
+	"extensions": [
+
+		"ms-vscode.cpptools-extension-pack",
+		"ms-python.python",
+		"njpwerner.autodocstring",
+		"ms-iot.vscode-ros",
+		"gruntfuggly.todo-tree"
+
+
+
+	],
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	// "forwardPorts": [],

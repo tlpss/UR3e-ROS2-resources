@@ -1,0 +1,17 @@
+CMake Error at CMakeLists.txt:32 (find_package):
+  By not providing "Findrviz_visual_tools.cmake" in CMAKE_MODULE_PATH this
+  project has asked CMake to find a package configuration file provided by
+  "rviz_visual_tools", but CMake did not find one.
+
+  Could not find a package configuration file provided by "rviz_visual_tools"
+  with any of the following names:
+
+    rviz_visual_toolsConfig.cmake
+    rviz_visual_tools-config.cmake
+
+  Add the installation prefix of "rviz_visual_tools" to CMAKE_PREFIX_PATH or
+  set "rviz_visual_tools_DIR" to a directory containing one of the above
+  files.  If "rviz_visual_tools" provides a separate development package or
+  SDK, be sure it has been installed.
+
+

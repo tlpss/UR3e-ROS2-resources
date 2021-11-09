@@ -1,4 +1,4 @@
-# moveit_tools
+# ur3e_tutorials
 A collection of moveit related tools and examples for the UR3e.
 
 ## move_group_interface_tutorial
@@ -16,5 +16,5 @@ ros2 launch ur_bringup ur_control.launch.py ur_type:=ur3e robot_ip:=10.42.0.162 
 
 ros2 launch moveit_tools move_group.launch.py 
 
-ros2 launch moveit_tools move_group_interface_tutorial.launch.py
+ros2 launch ur3e_tutorials move_group_interface_tutorial.launch.py
 ```

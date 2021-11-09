@@ -1,4 +1,4 @@
-# UR3e-ROS2-resources
+# UR3e-ROS2-resources [![build (foxy)](https://github.com/tlpss/UR3e-ROS2-resources/actions/workflows/foxy_build.yml/badge.svg?branch=master)](https://github.com/tlpss/UR3e-ROS2-resources/actions/workflows/foxy_build.yml)
 Repository containing code for controlling the UR3e @ AIRO Ghent University using ROS2 and Moveit2
 
 
@@ -15,9 +15,7 @@ All steps assume ubuntu 20.04 as OS, since this is the default for ROS2-foxy.
 - fetch all ROS dependencies using `rosdep install --from-paths src --ignore-src -r -y`
 - build the workspace using `colcon build --symlink-install` and make sure that there are no build errors
 
-If the build fails, you can try:
-- removing old versions of ROS
-- installing [ROS2_control](http://control.ros.org/getting_started.html)
+(see `.docker/foxy/ci/Dockerfile` for a Dockerfile that installs the dependencies and builds the packages)
 
 
 ## connect to UR3e
@@ -65,3 +63,8 @@ This starts up nodes to teleoperate the UR3e with a game controller in realtime 
 
 ### attaching collision objects to the scene
 - to attach a groundplane to the UR3e, run `ros2 run moveit_tools add_collision_ground_plane`
+
+## Developer Guide
+
+- the repo contains a setup for a vscode Remote Container to create an isolated dev environment, this is highly recommended.
+- [pre-commit](https://pre-commit.com/) is used to format the code in this repo, following the workflow of Moveit2
